@@ -10,14 +10,9 @@ using System.Web;
 public class Startup
 {
 
-    private const string LoginForm = @"<form action='/Login' method='POST'>
-   Username: <input type='text' name='Username'/>
-   Password: <input type='text' name='Password'/>
-   <input type='submit' value ='Log In' /> 
-</form>";
+   
 
-    private const string Username = "user";
-    private const string Password = "user123";
+    
 
     public static async Task Main()
            => await new HttpServer(routes => routes
@@ -28,7 +23,11 @@ public class Startup
          .MapGet<HomeController>("/Content", c => c.Content())
          .MapPost<HomeController>("/Content", c=>c.DownloadContent())
          .MapGet<HomeController>("/Cookies", c=>c.Cookies())
-         .MapGet<HomeController>("/Session", c=>c.Session()))
+         .MapGet<HomeController>("/Session", c=>c.Session())
+         .MapGet<UsersController>("/Login", c=> c.Login())
+         .MapPost<UsersController>("/Login", c=>c.LogInUser())
+        .MapGet<UsersController>("/Logout", c=>c.Logout())
+        .MapGet<UsersController>("/UserProfile", c=>c.GetUserData()))
           .Start();
 
     //.MapGet("/HTML", new HtmlResponse(Startup.HtmlForm))
@@ -44,57 +43,57 @@ public class Startup
 
 
 
-    private static void GetUserDataAction(Request request, Response response)
-    {
-        if (request.Session.ContainsKey(Session.SessionUserKey))
-        {
-            response.Body = "";
-            response.Body += $"<h3>Currently logged-in user" + $"is with username '{Username}'</h3>";
-        }
-        else
-        {
-            response.Body = "";
-            response.Body += "<h3>You should first log in" + "- <a href='/Login'>Login</a></h3>";
-        }
-    }
+    //private static void GetUserDataAction(Request request, Response response)
+    //{
+    //    if (request.Session.ContainsKey(Session.SessionUserKey))
+    //    {
+    //        response.Body = "";
+    //        response.Body += $"<h3>Currently logged-in user" + $"is with username '{Username}'</h3>";
+    //    }
+    //    else
+    //    {
+    //        response.Body = "";
+    //        response.Body += "<h3>You should first log in" + "- <a href='/Login'>Login</a></h3>";
+    //    }
+    //}
 
-    private static void LogoutAction(Request request, Response response)
-    {
-        //var sessionBeforeClear = request.Session;
+    //private static void LogoutAction(Request request, Response response)
+    //{
+    //    //var sessionBeforeClear = request.Session;
 
-        request.Session.Clear();
+    //    request.Session.Clear();
 
-        //var sessionAfterClear = request.Session;
+    //    //var sessionAfterClear = request.Session;
 
-        response.Body = "";
-        response.Body += "<h3>Logged out succesfully!</h3>";
-    }
+    //    response.Body = "";
+    //    response.Body += "<h3>Logged out succesfully!</h3>";
+    //}
 
-    private static void LoginAction(Request request, Response response)
-    {
-        request.Session.Clear();
+    //private static void LoginAction(Request request, Response response)
+    //{
+    //    request.Session.Clear();
 
-        //var sessionBeforeLogin = request.Session;
+    //    //var sessionBeforeLogin = request.Session;
 
-        var bodyText = "";
+    //    var bodyText = "";
 
-        var usernameMatches = request.Form["Username"] == Startup.Username;
-        var passwordMatches = request.Form["Password"] == Startup.Password;
+    //    var usernameMatches = request.Form["Username"] == Startup.Username;
+    //    var passwordMatches = request.Form["Password"] == Startup.Password;
 
-        if (usernameMatches && passwordMatches)
-        {
-            request.Session[Session.SessionUserKey] = "MyUserId";
-            response.Cookies.Add(Session.SessionCookieName, request.Session.Id);
+    //    if (usernameMatches && passwordMatches)
+    //    {
+    //        request.Session[Session.SessionUserKey] = "MyUserId";
+    //        response.Cookies.Add(Session.SessionCookieName, request.Session.Id);
 
-            bodyText = "<h3>Logged successfully!</h3>";
-        }
-        else
-        {
-            bodyText = Startup.LoginForm;
-        }
-        response.Body = "";
-        response.Body += bodyText;
-    }
+    //        bodyText = "<h3>Logged successfully!</h3>";
+    //    }
+    //    else
+    //    {
+    //        bodyText = Startup.LoginForm;
+    //    }
+    //    response.Body = "";
+    //    response.Body += bodyText;
+    //}
 
     //private static void DisplaySessionInfoAction
     //    (Request request, Response response)
