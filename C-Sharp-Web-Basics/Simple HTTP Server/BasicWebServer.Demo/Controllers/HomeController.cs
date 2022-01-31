@@ -1,4 +1,5 @@
-﻿using BasicWebServer.Server.Controllers;
+﻿using BasicWebServer.Demo.Models;
+using BasicWebServer.Server.Controllers;
 using BasicWebServer.Server.HTTP;
 using System.Text;
 using System.Web;
@@ -23,18 +24,7 @@ namespace BasicWebServer.Demo.Controllers
 
         public Response Html() => View();
 
-        public Response HtmlFormPost()
-        {
-            string formData = string.Empty;
-
-            foreach (var (key, value) in this.Request.Form)
-            {
-                formData += $"{key} - {value}";
-                formData += Environment.NewLine;
-            }
-
-            return Text(formData);
-        }
+       
 
         public Response Content() => View();
 
@@ -93,6 +83,20 @@ namespace BasicWebServer.Demo.Controllers
             return Text("Current date stored!");
         }
 
+        public Response HtmlFormPost()
+        {
+            var name = this.Request.Form["Name"];
+            var age = this.Request.Form["Age"];
+
+            var model = new FormViewModel()
+            {
+                Name = name,
+                Age = int.Parse(age)
+            };
+
+            return View(model);
+        }
+
 
         private static async Task<string> DownloadWebSiteContent(string url)
         {
@@ -121,70 +125,12 @@ namespace BasicWebServer.Demo.Controllers
             var reponsesString = string.Join(
                 Environment.NewLine + new String('-', 100), responses);
 
-            //fix after lecture with Stamo
+            //FIX AFTER WATCH LECTURE WITH STAMO !!!
             await System.IO.File.WriteAllTextAsync(fileName, reponsesString);
         }
 
 
-        //private static void AddCookiesAction(Request request, Response response)
-        //{
-        //    var requestHasCookies = request.Cookies
-        //        .Any(c => c.Name != Session.SessionCookieName);
-
-        //    var bodyText = "";
-
-        //    if (requestHasCookies)
-        //    {
-        //        var cookieText = new StringBuilder();
-        //        cookieText.AppendLine("<h1>Cookies</h1>");
-
-        //        cookieText
-        //            .Append("<table border='1'><tr><th>Name</th><th>Value</th></tr>");
-
-        //        foreach (var cookie in request.Cookies)
-        //        {
-        //            cookieText.Append("<tr>");
-        //            cookieText
-        //                .Append($"<td>{HttpUtility.HtmlEncode(cookie.Name)}</td>");
-        //            cookieText
-        //                .Append($"<td>{HttpUtility.HtmlEncode(cookie.Value)}</td>");
-        //            cookieText.Append("</table>");
-        //        }
-        //        cookieText.Append("</table>");
-        //        bodyText = cookieText.ToString();
-        //    }
-        //    else
-        //    {
-        //        bodyText = "<h1>Cookies set!</h1>";
-        //    }
-        //    if (!requestHasCookies)
-        //    {
-        //        response.Cookies.Add("My-Cookie", "My-Value");
-        //        response.Cookies.Add("My-Second-Cookie", "My-Second-Value");
-        //    }
-        //}
-
-        //private static void DisplaySessionInfoAction
-        //(Request request, Response response)
-        //{
-        //    var sessionExists = request.Session
-        //        .ContainsKey(Session.SessionCurrentDateKey);
-
-        //    var bodyText = "";
-
-        //    if (sessionExists)
-        //    {
-        //        var currentDate = request.Session[Session.SessionCurrentDateKey];
-        //        bodyText = $"Stored date: {currentDate}!";
-        //    }
-        //    else
-        //    {
-        //        bodyText = "Current date stored!";
-        //    }
-
-        //    response.Body = "";
-        //    response.Body += bodyText;
-        //}
+        
     }
 
   
