@@ -25,13 +25,4 @@ public class Startup
         .MapGet<UsersController>("/UserProfile", c=>c.GetUserData()))
           .Start();
 
-    //.MapGet("/HTML", new HtmlResponse(Startup.HtmlForm))
-    //.MapGet("/Content", new HtmlResponse(Startup.DownloadForm))
-    //.MapPost("/Content", new TextFileResponse(Startup.FileName))
-    //.MapGet("/Cookies", new HtmlResponse("",Startup.AddCookiesAction))
-    //.MapGet("/Session",new TextResponse("",Startup.DisplaySessionInfoAction))
-    //.MapGet("/Login",new HtmlResponse(Startup.LoginForm))
-    //.MapPost("/Login",new HtmlResponse("",Startup.LoginAction))
-    //.MapGet("/Logout", new HtmlResponse("",Startup.LogoutAction))
-    //.MapGet("/UserProfile", new HtmlResponse("",Startup.GetUserDataAction)));
 }
