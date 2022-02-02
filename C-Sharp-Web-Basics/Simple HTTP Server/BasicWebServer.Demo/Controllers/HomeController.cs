@@ -24,19 +24,12 @@ namespace BasicWebServer.Demo.Controllers
 
         public Response Html() => View();
 
-       
 
         public Response Content() => View();
 
 
-        public Response DownloadContent()
-        {
-            DownloadSitesAsTextFile(HomeController.FileName,
-                new string[] { "https://judge.softuni.org/", "https://softuni.org/" })
-                .Wait();
-
-            return File(HomeController.FileName);
-        }
+        public Response DownloadContent() => File(FileName);
+        
 
         public Response Cookies()
         {
@@ -98,36 +91,7 @@ namespace BasicWebServer.Demo.Controllers
         }
 
 
-        private static async Task<string> DownloadWebSiteContent(string url)
-        {
-            var httpClient = new HttpClient();
-
-            using (httpClient)
-            {
-                var response = await httpClient.GetAsync(url);
-
-                var html = await response.Content.ReadAsStringAsync();
-
-                return html.Substring(0, 2000);
-            }
-        }
-        private static async Task DownloadSitesAsTextFile(string fileName, string[] urls)
-        {
-            var downloads = new List<Task<string>>();
-
-            foreach (var url in urls)
-            {
-                downloads.Add(DownloadWebSiteContent(url));
-            }
-
-            var responses = await Task.WhenAll(downloads);
-
-            var reponsesString = string.Join(
-                Environment.NewLine + new String('-', 100), responses);
-
-            //FIX AFTER WATCH LECTURE WITH STAMO !!!
-            await System.IO.File.WriteAllTextAsync(fileName, reponsesString);
-        }
+       
 
 
         
