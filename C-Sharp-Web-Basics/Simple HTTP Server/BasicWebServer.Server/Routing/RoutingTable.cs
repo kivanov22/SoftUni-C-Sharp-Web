@@ -11,14 +11,13 @@ namespace BasicWebServer.Server.Routing
 
         public RoutingTable() =>
             this.routes= new()
-            //this.routes = new Dictionary<Method, Dictionary<string, Response>>()
             {
-                [Method.Get] = new(),
-                //new Dictionary<string, Response>(),
-                [Method.Post] = new(),
-                [Method.Put] = new(),
-                [Method.Delete] = new(),
+                [Method.Get] = new(StringComparer.InvariantCultureIgnoreCase),
+                [Method.Post] = new(StringComparer.InvariantCultureIgnoreCase),
+                [Method.Put] = new(StringComparer.InvariantCultureIgnoreCase),
+                [Method.Delete] = new(StringComparer.InvariantCultureIgnoreCase),
             };
+        
 
 
         public IRoutingTable Map(Method method,string path,Func<Request,Response> responseFunction) 

@@ -1,11 +1,7 @@
 ﻿
 using BasicWebServer.Demo.Controllers;
 using BasicWebServer.Server;
-using BasicWebServer.Server.HTTP;
-using BasicWebServer.Server.Responses;
 using BasicWebServer.Server.Routing;
-using System.Text;
-using System.Web;
 
 public class Startup
 {
