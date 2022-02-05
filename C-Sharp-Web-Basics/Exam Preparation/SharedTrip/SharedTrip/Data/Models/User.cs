@@ -13,7 +13,7 @@
         [Key]
         public string Id { get; init; } = Guid.NewGuid().ToString();
 
-        [MaxLength(UsernameMaxLength)]
+        //[MaxLength(UsernameMaxLength)]
         [Required]
         public string Username { get; set; }
 
@@ -21,7 +21,7 @@
         public string Email { get; set; }
 
         [Required]
-        [MaxLength(PasswordMaxLenght)]
+       // [MaxLength(PasswordMaxLenght)]
         public string Password { get; set; }
 
         public IEnumerable<UserTrip> UserTrips { get; init; } = new List<UserTrip>();
