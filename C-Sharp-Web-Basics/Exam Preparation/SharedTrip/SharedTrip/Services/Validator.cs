@@ -16,9 +16,9 @@ namespace SharedTrip.Services
         {
             var errors = new List<string>();
 
-            if (user.Username ==null || user.Username.Length < UsernameMinLength || user.Username.Length >UsernameMaxLength)
+            if (user.Username ==null || user.Username.Length < UsernameMinLength || user.Username.Length >DefaultMaxLength)
             {
-                errors.Add($"Username '{user.Username}' is not valid. It must be between {UsernameMinLength} and {UsernameMaxLength} characters long. ");
+                errors.Add($"Username '{user.Username}' is not valid. It must be between {UsernameMinLength} and {DefaultMaxLength} characters long. ");
             }
 
             if (user.Email == null)
@@ -26,9 +26,9 @@ namespace SharedTrip.Services
                 errors.Add($"Email '{user.Email}' is not a valid e-mail address.");
             }
 
-            if (user.Password == null || user.Password.Length < PasswordMinLength || user.Password.Length > PasswordMaxLenght)
+            if (user.Password == null || user.Password.Length < PasswordMinLength || user.Password.Length > DefaultMaxLength)
             {
-                errors.Add($"The provided password is not valid. It must be between {PasswordMinLength} and {PasswordMaxLenght} characters long.");
+                errors.Add($"The provided password is not valid. It must be between {PasswordMinLength} and {DefaultMaxLength} characters long.");
             }
 
             if (user.Password != null && user.Password.Any(x => x == ' '))
@@ -48,12 +48,12 @@ namespace SharedTrip.Services
         {
             var errors = new List<string>();
 
-            if (trip.StartingPoint ==null)
+            if (trip.StartPoint ==null)
             {
                 errors.Add($"Starting point is required!");
             }
 
-            if (trip.EndingPoint ==null)
+            if (trip.EndPoint ==null)
             {
                 errors.Add($"Ending point is required !");
             }
@@ -68,9 +68,9 @@ namespace SharedTrip.Services
                 errors.Add($"The description must not be more than {DescriptionMaxLength}.");
             }
 
-            if (trip.Image == null || !Uri.IsWellFormedUriString(trip.Image, UriKind.Absolute))
+            if (trip.ImagePath == null || !Uri.IsWellFormedUriString(trip.ImagePath, UriKind.Absolute))
             {
-                errors.Add($"Image '{trip.Image}' is not valid. It must be a valid URL.");
+                errors.Add($"Image '{trip.ImagePath}' is not valid. It must be a valid URL.");
             }
 
             return errors;
