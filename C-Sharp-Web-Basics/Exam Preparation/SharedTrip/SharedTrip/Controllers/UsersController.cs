@@ -49,8 +49,8 @@
             var user = new User
             {
                 Username = model.Username,
+                Email = model.Email,
                 Password = this.passwordHasher.HashPassword(model.Password),
-                Email = model.Email
             };
 
             data.Users.Add(user);

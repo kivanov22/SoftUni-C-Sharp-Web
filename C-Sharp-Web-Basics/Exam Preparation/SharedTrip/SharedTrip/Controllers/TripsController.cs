@@ -26,6 +26,7 @@ namespace SharedTrip.Controllers
             this.passwordHasher = passwordHasher;
         }
 
+        
 
         [Authorize]
         public HttpResponse All()
@@ -42,12 +43,17 @@ namespace SharedTrip.Controllers
                     StartingPoint = t.StartPoint,
                     EndingPoint = t.EndPoint,
                     DepartureTime = t.DepartureTime,
-                    Seats = t.Seats
+                    Seats = t.Seats,
+                    Description = t.Description,
+                    Image = t.Image
                 })
                 .ToList();
 
             return View(trips);
         }
+
+        [Authorize]
+        public HttpResponse Add() => View();
 
 
         [Authorize]
@@ -63,12 +69,12 @@ namespace SharedTrip.Controllers
 
             var trip = new Trip
             {
-                StartPoint = model.StartingPoint,
-                EndPoint = model.EndingPoint,
+                StartPoint = model.StartPoint,
+                EndPoint = model.EndPoint,
                 DepartureTime = model.DepartureTime,
                 Seats = model.Seats,
                 Description = model.Description,
-                Image = model.Image
+                Image = model.ImagePath
             };
 
             data.Trips.Add(trip);
