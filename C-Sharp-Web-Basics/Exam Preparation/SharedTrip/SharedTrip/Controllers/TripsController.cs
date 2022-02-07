@@ -83,5 +83,32 @@ namespace SharedTrip.Controllers
 
             return Redirect("/Trips/All");
         }
+
+        [Authorize]
+        public HttpResponse Details(string tripId)
+        {
+            
+            var tripDetails = this.data
+                .Trips
+                .Where(i => i.Id == tripId)
+                .Select(c => new TripListingViewModel
+                {
+                    Id = c.Id,
+                    StartingPoint = c.StartPoint,
+                    EndingPoint = c.EndPoint,
+                    DepartureTime = c.DepartureTime,
+                    Image = c.Image,
+                    Seats = c.Seats,
+                    Description = c.Description
+                })
+                .FirstOrDefault();
+
+            if (tripDetails == null)
+            {
+                return NotFound();
+            }
+
+            return View(tripDetails);
+        }
     }
 }
