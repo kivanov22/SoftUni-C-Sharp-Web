@@ -2,18 +2,45 @@
 namespace BasicWebServer.Server.Controllers
 {
     using BasicWebServer.Server.HTTP;
+    using BasicWebServer.Server.Identity;
     using BasicWebServer.Server.Responses;
     using System.Runtime.CompilerServices;
 
-    public abstract class Controller
+    public class Controller
     {
+        private UserIdentity userIdentity;
         protected Controller(Request request)
         {
             this.Request = request;
         }
 
-        protected Request Request { get; private init; }
+        protected Request Request { get; set; }
 
+        protected UserIdentity User
+        {
+            get
+            {
+                if (this.userIdentity ==null)
+                {
+                    this.userIdentity = this.Request.Session.ContainsKey(Session.SessionUserKey)
+                        ? new UserIdentity { Id = this.Request.Session[Session.SessionUserKey] }
+                        : new();
+                }
+
+                return this.userIdentity;
+            }
+        }
+        protected void SignIn(string userId)
+        {
+            this.Request.Session[Session.SessionUserKey] = userId;
+            this.userIdentity = new UserIdentity { Id = userId };
+        }
+
+        protected void SignOut()
+        {
+            this.Request.Session.Clear();
+            this.userIdentity = new();
+        }
 
         protected Response Text(string text) => new TextResponse(text);
         protected Response Html(string html, CookieCollection cookies = null)
