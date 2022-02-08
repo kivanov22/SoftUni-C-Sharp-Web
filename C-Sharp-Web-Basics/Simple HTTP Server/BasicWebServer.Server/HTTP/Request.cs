@@ -25,8 +25,10 @@ namespace BasicWebServer.Server.HTTP
 
         public static IServiceCollection ServiceCollection { get; private set; }
 
-        public static Request Parse(string request)
+        public static Request Parse(string request,IServiceCollection serviceCollection)
         {
+            ServiceCollection = serviceCollection;
+
             var lines = request.Split("\r\n");
             var startLine = lines.First().Split(" ");
 
@@ -139,6 +141,11 @@ namespace BasicWebServer.Server.HTTP
                 }
             }
             return formCollection;
+        }
+
+        internal string GetValue(string? name)
+        {
+            throw new NotImplementedException();
         }
 
         private static Dictionary<string, string> ParseFormData(string bodyLines)
