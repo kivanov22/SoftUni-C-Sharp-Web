@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using BasicWebServer.Server.Common;
+using System.Web;
 
 namespace BasicWebServer.Server.HTTP
 {
@@ -20,13 +21,19 @@ namespace BasicWebServer.Server.HTTP
 
         public IReadOnlyDictionary<string, string> Form { get;private set; }
 
+        public IReadOnlyDictionary<string,string> Query { get;private set; }
+
+        public static IServiceCollection ServiceCollection { get; private set; }
+
         public static Request Parse(string request)
         {
             var lines = request.Split("\r\n");
             var startLine = lines.First().Split(" ");
 
             var method = ParseMethod(startLine[0]);
-            var url = startLine[1];
+
+            (string url, Dictionary<string, string> query) = ParseUrl(startLine[1]);
+
 
             HeaderCollection headers = ParseHeaders(lines.Skip(1));
 
@@ -49,8 +56,36 @@ namespace BasicWebServer.Server.HTTP
                 Body = body,
                 Session = session,
                 Form = form,
+                Query = query
             };
 
+        }
+
+        private static (string url, Dictionary<string, string> query) ParseUrl(string queryString)
+        {
+            string url = string.Empty;
+            Dictionary<string, string> query = new Dictionary<string, string>();
+
+            var parts = queryString.Split("?", 2);
+
+            if (parts.Length > 1)
+            {
+                var queryParams = parts[1].Split("&");
+
+                foreach (var pair in queryParams)
+                {
+                    var param = pair.Split("=");
+
+                    if (param.Length==2)
+                    {
+                        query.Add(param[0], param[1]);
+                    }
+                }
+            }
+
+            url = parts[0];
+
+            return (url, query);
         }
 
         private static Session GetSession(CookieCollection cookies)
