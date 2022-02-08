@@ -1,4 +1,5 @@
-﻿using BasicWebServer.Server.HTTP;
+﻿using BasicWebServer.Server.Common;
+using BasicWebServer.Server.HTTP;
 using BasicWebServer.Server.Routing;
 using System.Net;
 using System.Net.Sockets;
@@ -14,6 +15,8 @@ namespace BasicWebServer.Server
 
         private readonly RoutingTable routingTable;
 
+        public readonly IServiceCollection ServiceCollection;
+
         public HttpServer(string ipAddress, int port, Action<IRoutingTable> routingTableConfiguration)
         {
             this.ipAddress = IPAddress.Parse(ipAddress);
@@ -23,6 +26,7 @@ namespace BasicWebServer.Server
             this.serverListener = new TcpListener(this.ipAddress, port);
 
             routingTableConfiguration(this.routingTable = new RoutingTable());
+            ServiceCollection = new ServiceCollection();
         }
 
         public HttpServer(int port, Action<IRoutingTable> routingTable)
@@ -51,20 +55,13 @@ namespace BasicWebServer.Server
 
                       var networkStream = connection.GetStream();
 
-                      //WriteResponse(networkStream, "Hello from the server!");
-
                       var requestText = await this.ReadRequest(networkStream);
 
                       Console.WriteLine(requestText);
 
-                      var request = Request.Parse(requestText);
+                      var request = Request.Parse(requestText,ServiceCollection);
 
                       var response = this.routingTable.MatchRequest(request);
-
-                      //if (response.PreRenderAction != null)
-                      //{
-                      //    response.PreRenderAction(request, response);
-                      //}
 
                       AddSession(request, response);
 
@@ -92,13 +89,7 @@ namespace BasicWebServer.Server
 
         private async Task WriteResponse(NetworkStream networkStream, Response response)
         {
-            //            var contentLength = Encoding.UTF8.GetByteCount(message);
-
-            //            var response = $@"HTTP/1.1 200 OK
-            //Content-Type: text/plain; charset=UTF-8
-            //Content-Length: {contentLength}
-
-            //{message}";
+          
 
             var responseBytes = Encoding.UTF8.GetBytes(response.ToString());
 
