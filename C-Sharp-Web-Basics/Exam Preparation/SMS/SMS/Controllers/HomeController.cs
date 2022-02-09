@@ -7,6 +7,10 @@
     {
         public HttpResponse Index()
         {
+            if (this.User.IsAuthenticated)
+            {
+                return Redirect("/Home");
+            }
             return this.View();
         }
     }
