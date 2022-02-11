@@ -27,6 +27,21 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            //'Cart.User' and 'User.Cart'
+            // modelBuilder.Entity<Author>()
+            //.HasOne(a => a.Biography)
+            //.WithOne(b => b.Author)
+            //.HasForeignKey<AuthorBiography>(b => b.AuthorRef);
+
+            //modelBuilder.Entity<User>()
+            //    .HasOne<Cart>(a => a.Cart)
+            //    .WithOne(u => u.User)
+            //    .HasForeignKey<Cart>(u => u.Cart);
+
+            //modelBuilder.Entity<Cart>()
+            //    .HasOne(u => u.User)
+            //    .WithOne(c => c.Cart)
+            //    .HasForeignKey<User>(i => i.Id);
         }
     }
 }

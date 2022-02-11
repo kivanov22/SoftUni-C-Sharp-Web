@@ -2,10 +2,11 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using static DataConstants;
     public class User
     {
+        [Key]
         public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
@@ -19,6 +20,9 @@
         [Required]
         public string Password { get; set; }
 
+        public string CartId { get; init; }
+
+        [ForeignKey(nameof(CartId))]
         public Cart Cart { get; set; }
     }
 }
