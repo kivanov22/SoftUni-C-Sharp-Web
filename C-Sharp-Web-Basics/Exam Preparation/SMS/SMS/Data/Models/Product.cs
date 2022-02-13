@@ -17,7 +17,7 @@
         public decimal Price { get; set; }
 
     
-        public string CartId { get; init; }
+        public string CartId { get; set; }
 
         [ForeignKey(nameof(CartId))]
 

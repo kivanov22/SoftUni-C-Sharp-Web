@@ -38,10 +38,10 @@
             //    .WithOne(u => u.User)
             //    .HasForeignKey<Cart>(u => u.Cart);
 
-            //modelBuilder.Entity<Cart>()
-            //    .HasOne(u => u.User)
-            //    .WithOne(c => c.Cart)
-            //    .HasForeignKey<User>(i => i.Id);
+            modelBuilder.Entity<Cart>()
+                .HasOne<User>(u => u.User)
+                .WithOne(c => c.Cart)
+                .HasForeignKey<User>(i => i.CartId);
         }
     }
 }

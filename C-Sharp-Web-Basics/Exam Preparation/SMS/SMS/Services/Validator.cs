@@ -51,7 +51,7 @@ namespace SMS.Services
                 errors.Add($"Username '{product.Name}' is not valid. It must be between {ProductNameMinLenght} and {ProductNameMaxLength} characters long. ");
             }
 
-            if (product.Price == 0 || product.Price< ProductPriceMinLength || product.Price > ProductPriceMaxLength)
+            if (product.Price < ProductPriceMinLength || product.Price > ProductPriceMaxLength)
             {
                 errors.Add($"Product '{product.Price}' is not valid. It must be between {ProductPriceMinLength} and {ProductPriceMaxLength}");
             }

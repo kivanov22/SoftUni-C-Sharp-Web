@@ -11,7 +11,8 @@
 
         //The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Users_Carts_CartId".
         //The conflict occurred in database "SMS", table "dbo.Carts", column 'Id'.
-       
+        public string UserId { get; set; }
+
         public User User { get; init; }
 
         public IEnumerable<Product> Products { get; init; } = new List<Product>();

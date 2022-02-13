@@ -14,6 +14,6 @@
         public const int ProductNameMaxLength = 20;
 
         public const decimal ProductPriceMinLength = 0.05M;
-        public const int ProductPriceMaxLength = 1000;
+        public const decimal ProductPriceMaxLength = 1000M;
     }
 }

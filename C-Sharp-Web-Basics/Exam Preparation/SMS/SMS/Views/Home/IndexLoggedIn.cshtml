@@ -1,5 +1,5 @@
 ﻿<div class="button-holder text-center">
-    <h3>Hello, Username</h3>
+    <h3>Hello, @Model.Username</h3>
     <a href="/Carts/Details" class="btn btn-outline-primary">My Cart</a>
 </div>
 <main class="mt-3">
@@ -13,9 +13,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="row">
-                    @foreach(var product in Model)
+                    @foreach(var product in Model.Products)
                     {
+                <tr class="row">
                     <td class="col-lg-5">@product.Name</td>
                     <td class="col-lg-5">@product.Price</td>
                     <td class="col-lg-2">
@@ -23,8 +23,8 @@
                             <a href="/Carts/AddProduct?productId=@product.Id" class="btn btn-outline-primary">Add to Cart</a>
                         </div>
                     </td>
-                    }
                 </tr>
+                    }
             </tbody>
         </table>
     </div>

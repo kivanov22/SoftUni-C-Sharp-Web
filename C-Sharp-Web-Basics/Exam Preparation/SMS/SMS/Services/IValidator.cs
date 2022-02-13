@@ -5,8 +5,8 @@
     using System.Collections.Generic;
     public interface IValidator
     {
-        ICollection<string> ValidateUser(RegisterUserFormModel);
+        ICollection<string> ValidateUser(RegisterUserFormModel model);
 
-        ICollection<string> ValidateProducts(CreateProductFormModel);
+        ICollection<string> ValidateProducts(CreateProductFormModel model);
     }
 }

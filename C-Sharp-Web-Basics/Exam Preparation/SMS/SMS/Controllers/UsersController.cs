@@ -79,7 +79,7 @@
 
             this.SignIn(userId);
 
-            return Redirect("/Products");
+            return Redirect("/");
         }
 
         [Authorize]

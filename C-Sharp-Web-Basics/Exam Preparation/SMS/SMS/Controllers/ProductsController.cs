@@ -25,7 +25,7 @@ namespace SMS.Controllers
             this.passwordHasher = passwordHasher;
         }
 
-        //Products ADD / CART CREATE / CARTS DETAILS
+       
 
         [Authorize]
         public HttpResponse Create() => View();
@@ -52,17 +52,5 @@ namespace SMS.Controllers
 
             return Redirect("/");
         }
-
-        [Authorize]
-        public HttpResponse Details(string cartId)
-        {
-
-        }
-
-        public HttpResponse AddProductToCart(string productId)
-        {
-
-        }
-
     }
 }
