@@ -1,5 +1,6 @@
 ﻿namespace SMS.Controllers
 {
+    using Microsoft.EntityFrameworkCore;
     using MyWebServer.Controllers;
     using MyWebServer.Http;
     using SMS.Data;
@@ -25,7 +26,7 @@
         }
 
         [Authorize]
-        public HttpResponse Details(string cartId)
+        public HttpResponse Details()
         {
             var user = data.Users
                 .Where(u => u.Id == User.Id)
@@ -34,7 +35,7 @@
 
             var cartDetails = this.data
                 .Products
-                .Where(i => i.CartId == user.Id)
+                .Where(i => i.CartId == user.CartId)
                 .Select(c => new CartDetailsViewModel
                 {
                     Name = c.Name,
@@ -66,9 +67,33 @@
             return Redirect("/Carts/Details");
         }
 
-        //public HttpResponse Buy()
-        //{
+        public HttpResponse Buy()
+        {
+            var cart = data.Carts.Where(c => c.UserId == User.Id).FirstOrDefault();
 
-        //}
+            var products = data.Products.Where(p => p.CartId == cart.Id).ToList();
+
+            if (products.Count == 0)
+            {
+                return NotFound();
+            }
+
+            var user = data.Users
+                .Where(c => c.Id == User.Id)
+                .Include(u => u.Cart)
+                .ThenInclude(p => p.Products)
+                .FirstOrDefault();
+
+            user.Cart.Products.Clear();
+
+            //foreach (var item in products)
+            //{
+                
+            //    item.CartId = null;
+            //}
+            data.SaveChanges();
+
+            return Redirect("/");
+        }
     }
 }

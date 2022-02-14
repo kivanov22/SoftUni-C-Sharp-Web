@@ -20,7 +20,7 @@
         [Required]
         public string Password { get; set; }
 
-        public string CartId { get; init; }
+        public string CartId { get; set; }
 
         [ForeignKey(nameof(CartId))]
         public Cart Cart { get; set; }

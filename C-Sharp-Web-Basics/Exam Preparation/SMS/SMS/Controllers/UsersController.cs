@@ -53,7 +53,17 @@
                 Email = model.Email,
                 Password = this.passwordHasher.HashPassword(model.Password)
             };
+
+            var cart = new Cart
+            {
+                UserId = user.Id
+            };
+
+            user.Cart = cart;
+
+
             data.Users.Add(user);
+            data.Carts.Add(cart);
             data.SaveChanges();
 
             return Redirect("/Users/Login");
