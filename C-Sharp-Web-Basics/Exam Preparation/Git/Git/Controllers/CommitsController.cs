@@ -18,10 +18,10 @@
 
 
         [Authorize]
-        public HttpResponse Create(string id)
+        public HttpResponse Create(string Id)
         {
             var repositoryCommit = this.data.Repositories
-                .Where(c => c.Id == id)
+                .Where(c => c.Id == Id)
                 .Select(x => new CommitToRepositoryModel
                 {
                     Id = x.Id,
@@ -59,6 +59,38 @@
             return Redirect("/Repositories/All");
         }
 
+        [Authorize]
+        public HttpResponse All()
+        {
+            var commits = this.data.Commits
+                .Where(c => c.CreatorId == this.User.Id)
+                .Select(x => new CommitsListingViewModel
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    CreatedOn = x.CreatedOn.ToLocalTime().ToString("F"),
+                    Repository = x.Repository.Name
+                })
+                .ToList();
 
+
+            return View(commits);
+        }
+
+        [Authorize]
+        public HttpResponse Delete(string Id)
+        {
+            var commit = this.data.Commits.Where(x=>x.Id == Id).FirstOrDefault();
+
+            if (commit ==null || commit.CreatorId != this.User.Id)
+            {
+                return BadRequest();
+            }
+
+            this.data.Commits.Remove(commit);
+            this.data.SaveChanges();
+
+            return Redirect("/Commits/All");
+        }
     }
 }

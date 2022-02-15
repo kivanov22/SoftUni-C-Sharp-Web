@@ -5,22 +5,24 @@
     public class Repository
     {
         [Key]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        [Required]
+        public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
         [MaxLength(RepositoryNameMaxLength)]
         public string Name { get; set; }  
 
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
         [Required]
         public bool IsPublic { get; set; }
 
+        [Required]
         public string OwnerId { get; set; }
 
         public User Owner { get; set; }
 
-        public IEnumerable<Commit> Commits { get; set; } = new List<Commit>();
+        public IEnumerable<Commit> Commits { get; init; } = new List<Commit>();
 
     }
 }

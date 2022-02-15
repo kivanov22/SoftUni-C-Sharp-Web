@@ -29,17 +29,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var repo in Model)
+                            @foreach (var repository in Model)
                             {
                                 <tr class="table-light">
-                                    <th scope="row">@repo.Name</th>
-                                    <td>@repo.Owner</td>
-                                    <td>@repo.CreatedOn</td>
-                                    <td>@repo.Commits</td>
+                                    <th scope="row">@repository.Name</th>
+                                    <td>@repository.Owner</td>
+                                    <td>@repository.CreatedOn</td>
+                                    <td>@repository.Commits</td>
                                     @if (User != null)
                                     {
                                         <td>
-                                            <a class="btn btn-block btn-primary text-white mb-3" href="/Commits/Create?id=@repo.Id">Commit</a>
+                                            <a class="btn btn-block btn-primary text-white mb-3" href="/Commits/Create?id=@repository.Id">Commit</a>
                                         </td>
                                     }
                                 </tr>

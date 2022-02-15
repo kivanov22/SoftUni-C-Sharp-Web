@@ -2,7 +2,8 @@
 {
     public class CommitsListingViewModel
     {
-        public string RepositoryName { get; set; }
+        public string Id { get; set; }
+        public string Repository { get; set; }
 
         public string Description { get; set; }
 

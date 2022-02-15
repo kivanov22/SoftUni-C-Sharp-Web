@@ -18,8 +18,8 @@
         //[MaxLength(PasswordMaxLength)]
         public string Password { get; set; }
 
-        public ICollection<Repository> Repositories { get; set; } = new List<Repository>();
+        public IEnumerable<Repository> Repositories { get; init; } = new List<Repository>();
 
-        public ICollection<Commit> Commits { get; set; } = new List<Commit>();
+        public IEnumerable<Commit> Commits { get; init; } = new List<Commit>();
     }
 }

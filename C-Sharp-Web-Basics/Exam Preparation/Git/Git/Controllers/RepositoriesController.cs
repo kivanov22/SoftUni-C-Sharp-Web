@@ -37,7 +37,7 @@
                 repositoriesAll = repositoriesAll.Where(x => x.IsPublic);
             }
 
-            repositoriesAll
+            var repositories = repositoriesAll
                 .OrderByDescending(x => x.CreatedOn)
                 .Select(r => new RepositoryListingViewModel
                 {
@@ -50,7 +50,7 @@
                 })
                 .ToList();
 
-            return View(repositoriesAll);
+            return View(repositories);
         }
 
         [Authorize]
